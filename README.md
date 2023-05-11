@@ -15,3 +15,6 @@ void app_main(){
   uint32_t voltage = adc_voltage(ADC1_CHANNEL_0, adc_chars);               
 }
 ```
+
+## Example
+The [ESP32 Example Project](https://github.com/myfreax/esp32-example-project) demonstrates how to use IDF framework build application of reusable component
