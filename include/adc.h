@@ -11,14 +11,16 @@
 typedef struct {
   adc_channel_t channel;
   adc_atten_t atten;
-  adc_oneshot_unit_handle_t adc_oneshot_handle;
+  adc_oneshot_unit_handle_t* adc_oneshot_handle;
   bool calibration;
   adc_cali_handle_t adc_cali_handle;
-} adc_t;
+} adc_chan_t;
 
-adc_t* adc_config(adc_channel_t channel, adc_bitwidth_t width_bit,
-                  adc_atten_t atten);
-int adc_voltage(adc_t* adc);
+esp_err_t adc_init(adc_unit_t unit);
+
+adc_chan_t* adc_chan_config(adc_channel_t channel, adc_bitwidth_t width_bit,
+                            adc_atten_t atten);
+int adc_voltage(adc_chan_t* adc);
 #else
 #include "driver/adc.h"
 #include "esp_adc_cal.h"
