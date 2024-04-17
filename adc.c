@@ -34,20 +34,14 @@ adc_chan_t* adc_chan_config(adc_channel_t channel, adc_bitwidth_t width_bit,
   return adc;
 }
 
-uint32_t adc_voltage(adc_chan_t* adc) {
-  static uint32_t calibrat_voltage = 0;
+esp_err_t adc_voltage(adc_chan_t* adc, int* voltage) {
   int adc_raw;
-  int voltage;
   esp_err_t err =
       adc_oneshot_read(*adc->adc_oneshot_handle, adc->channel, &adc_raw);
-  if (adc->calibration && adc_raw > 0 && err == ESP_OK) {
-    err = adc_cali_raw_to_voltage(adc->adc_cali_handle, adc_raw, &voltage);
-    if (voltage > 0 && err == ESP_OK) {
-      calibrat_voltage = (uint32_t)voltage;
-      return calibrat_voltage;
-    }
+  if (adc->calibration && adc_raw >= 0 && err == ESP_OK) {
+    return adc_cali_raw_to_voltage(adc->adc_cali_handle, adc_raw, voltage);
   }
-  return calibrat_voltage;
+  return err;
 }
 
 static bool adc_calibration_init(adc_unit_t unit, adc_channel_t channel,

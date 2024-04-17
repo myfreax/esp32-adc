@@ -20,7 +20,7 @@ esp_err_t adc_init(adc_unit_t unit);
 
 adc_chan_t* adc_chan_config(adc_channel_t channel, adc_bitwidth_t width_bit,
                             adc_atten_t atten);
-uint32_t adc_voltage(adc_chan_t* adc);
+esp_err_t adc_voltage(adc_chan_t* adc, int* voltage);
 #else
 #include "driver/adc.h"
 #include "esp_adc_cal.h"
